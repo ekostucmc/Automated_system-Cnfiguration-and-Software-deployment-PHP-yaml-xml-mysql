@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><root>
+<machines><num0>
+<series>xenial</series><constraints>arch=arm64</constraints></num0>
+<num1>
+<series>xenial</series><constraints>arch=arm64</constraints></num1>
+<num2>
+<series>xenial</series><constraints>arch=arm64</constraints></num2>
+<num3>
+<series>xenial</series><constraints>arch=arm64</constraints></num3>
+</machines>
+<relations>- nova-compute:amqp
+- neutron-gateway:amqp
+- keystone:shared-db
+- nova-cloud-controller:identity-service
+- glance:identity-service
+- neutron-api:identity-service
+- neutron-openvswitch:neutron-plugin-api
+- neutron-api:shared-db
+- neutron-api:amqp
+- neutron-gateway:neutron-plugin-api
+- glance:shared-db
+- glance:amqp
+- nova-cloud-controller:image-service
+- nova-compute:image-service
+- nova-cloud-controller:cloud-compute
+- nova-cloud-controller:amqp
+- nova-cloud-controller:quantum-network-service
+- nova-compute:neutron-plugin
+- neutron-openvswitch:amqp
+- openstack-dashboard:identity-service
+- nova-cloud-controller:shared-db
+- nova-cloud-controller:neutron-api
+- cinder:image-service
+- cinder:amqp
+- cinder:identity-service
+- cinder:cinder-volume-service
+- cinder-ceph:storage-backend
+- ceph-mon:client
+- nova-compute:ceph-access
+- cinder:shared-db
+- ceph-mon:client
+- ceph-mon:client
+- ceph-osd:mon
+- ntp:juju-info
+- ntp:juju-info
+- ceph-radosgw:mon
+- ceph-radosgw:identity-service
+</relations>
+<series>xenial</series>
+<services><ceph-mon><annotations><gui-x>750</gui-x><gui-y>500</gui-y></annotations><charm>cs:ceph-mon-15</charm><num_units>3</num_units><options><expected-osd-count>3</expected-osd-count><source>cloud:xenial-pike</source></options><to>-lxd:1-lxd:2-lxd:3</to></ceph-mon>
+<ceph-osd><annotations><gui-x>1000</gui-x><gui-y>500</gui-y></annotations><charm>cs:ceph-osd-250</charm><num_units>3</num_units><options><osd-devices>/dev/sdb</osd-devices><osd-reformat>yes</osd-reformat><source>cloud:xenial-pike</source></options><to>-1-2-3</to></ceph-osd>
+<ceph-radosgw><annotations><gui-x>1000</gui-x><gui-y>250</gui-y></annotations><charm>cs:ceph-radosgw-253</charm><num_units>1</num_units><options><source>cloud:xenial-pike</source></options><to>-lxd:0</to></ceph-radosgw>
+<cinder><annotations><gui-x>750</gui-x><gui-y>0</gui-y></annotations><charm>cs:cinder-265</charm><num_units>1</num_units><options><block-device>None</block-device><glance-api-version>2</glance-api-version><openstack-origin>cloud:xenial-pike</openstack-origin><worker-multiplier>0.25</worker-multiplier></options><to>-lxd:1</to></cinder>
+<cinder-ceph><annotations><gui-x>750</gui-x><gui-y>250</gui-y></annotations><charm>cs:cinder-ceph-228</charm><num_units>0</num_units></cinder-ceph>
+<glance><annotations><gui-x>250</gui-x><gui-y>0</gui-y></annotations><charm>cs:glance-260</charm><num_units>1</num_units><options><openstack-origin>cloud:xenial-pike</openstack-origin><worker-multiplier>0.25</worker-multiplier></options><to>-lxd:2</to></glance>
+<keystone><annotations><gui-x>500</gui-x><gui-y>0</gui-y></annotations><charm>cs:keystone-272</charm><num_units>1</num_units><options><admin-password>openstack</admin-password><openstack-origin>cloud:xenial-pike</openstack-origin><worker-multiplier>0.25</worker-multiplier></options><to>-lxd:3</to></keystone>
+<mysql><annotations><gui-x>0</gui-x><gui-y>250</gui-y></annotations><charm>cs:percona-cluster-256</charm><num_units>1</num_units><options><innodb-buffer-pool-size>256M</innodb-buffer-pool-size><max-connections>1000</max-connections></options><to>-lxd:0</to></mysql>
+<neutron-api><annotations><gui-x>500</gui-x><gui-y>500</gui-y></annotations><charm>cs:neutron-api-254</charm><num_units>1</num_units><options><flat-network-providers>physnet1</flat-network-providers><neutron-security-groups>true</neutron-security-groups><openstack-origin>cloud:xenial-pike</openstack-origin><worker-multiplier>0.25</worker-multiplier></options><to>-lxd:1</to></neutron-api>
+<neutron-gateway><annotations><gui-x>0</gui-x><gui-y>0</gui-y></annotations><charm>cs:neutron-gateway-242</charm><num_units>1</num_units><options><bridge-mappings>physnet1:br-ex</bridge-mappings><data-port>br-ex:enP2p1s0f2</data-port><openstack-origin>cloud:xenial-pike</openstack-origin><worker-multiplier>0.25</worker-multiplier></options><to>-0</to></neutron-gateway>
+<neutron-openvswitch><annotations><gui-x>250</gui-x><gui-y>500</gui-y></annotations><charm>cs:neutron-openvswitch-245</charm><num_units>0</num_units></neutron-openvswitch>
+<nova-cloud-controller><annotations><gui-x>0</gui-x><gui-y>500</gui-y></annotations><charm>cs:nova-cloud-controller-302</charm><num_units>1</num_units><options><network-manager>Neutron</network-manager><openstack-origin>cloud:xenial-pike</openstack-origin><worker-multiplier>0.25</worker-multiplier></options><to>-lxd:2</to></nova-cloud-controller>
+<nova-compute><annotations><gui-x>250</gui-x><gui-y>250</gui-y></annotations><charm>cs:nova-compute-275</charm><num_units>3</num_units><options><config-flags>default_ephemeral_format=ext4</config-flags><enable-live-migration>true</enable-live-migration><enable-resize>true</enable-resize><migration-auth-type>ssh</migration-auth-type><openstack-origin>cloud:xenial-pike</openstack-origin></options><to>-1-2-3</to></nova-compute>
+<ntp><annotations><gui-x>1000</gui-x><gui-y>0</gui-y></annotations><charm>cs:ntp-24</charm><num_units>0</num_units></ntp>
+<openstack-dashboard><annotations><gui-x>500</gui-x><gui-y>-250</gui-y></annotations><charm>cs:openstack-dashboard-252</charm><num_units>1</num_units><options><openstack-origin>cloud:xenial-pike</openstack-origin></options><to>-lxd:3</to></openstack-dashboard>
+<rabbitmq-server><annotations><gui-x>500</gui-x><gui-y>250</gui-y></annotations><charm>cs:rabbitmq-server-69</charm><num_units>1</num_units><to>-lxd:0</to></rabbitmq-server>
+</services>
+</root>
